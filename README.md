@@ -4,7 +4,7 @@
 
 ### Install Userscript
 
-> [twitch-custom-username.user.js](https://crashmax-dev.github.io/twitch-custom-username/twitch-custom-username.user.js)
+> [twitch-custom-username.user.js](https://gigachad-dev.github.io/twitch-custom-username/twitch-custom-username.user.js)
 
 ## Development
 
