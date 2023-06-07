@@ -4,7 +4,7 @@
 // @author      crashmax <userscript@crashmax.ru>
 // @license     MIT
 // @homepage    https://gigachad-dev.github.io/twitch-custom-username/
-// @match       https://www.twitch.tv/*
+// @match       https://*.twitch.tv/*
 // @updateURL   https://gigachad-dev.github.io/twitch-custom-username/twitch-custom-username.meta.js
 // @downloadURL https://gigachad-dev.github.io/twitch-custom-username/twitch-custom-username.user.js
 // ==/UserScript==
