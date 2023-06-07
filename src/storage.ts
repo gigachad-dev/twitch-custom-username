@@ -1,4 +1,5 @@
 import { Cookie } from '@zero-dependency/cookie'
+import { STORAGE_KEY } from './constants.js'
 
 export type User = [userId: string, customName: string]
 
@@ -8,7 +9,7 @@ class Storage extends Cookie<{ customNames: User[] }> {
   constructor() {
     super({
       initialValue: {
-        customNames: []
+        [STORAGE_KEY]: []
       },
       attributes: {
         domain: 'twitch.tv',
@@ -26,14 +27,14 @@ class Storage extends Cookie<{ customNames: User[] }> {
       }
     })
 
-    this.storageValue = this.get('customNames')!
+    this.storageValue = this.get(STORAGE_KEY)!
   }
 
   addCustomName(user: User): void {
-    const customNames = this.get('customNames')!
+    const customNames = this.get(STORAGE_KEY)!
     this.storageValue = customNames.filter((value) => value[0] !== user[0])
     this.storageValue.push(user)
-    this.set('customNames', this.storageValue)
+    this.set(STORAGE_KEY, this.storageValue)
   }
 
   getCustomNameById(userId: string): string | null {
