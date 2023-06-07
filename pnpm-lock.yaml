@@ -1,12 +1,12 @@
 lockfileVersion: '6.0'
 
 dependencies:
+  '@zero-dependency/cookie':
+    specifier: 1.11.3
+    version: 1.11.3
   '@zero-dependency/dom':
     specifier: 1.6.1
     version: 1.6.1
-  '@zero-dependency/storage':
-    specifier: 1.3.1
-    version: 1.3.1
   '@zero-dependency/utils':
     specifier: 1.0.0
     version: 1.0.0
@@ -513,18 +513,24 @@ packages:
       '@jridgewell/sourcemap-codec': 1.4.14
     dev: true
 
+  /@zero-dependency/cookie@1.11.3:
+    resolution: {integrity: sha512-oYJf5kU/xlVkW6zfWwRuLA93rsPDVjNACPJ8+Cg5YncLCrm2wEF/2IsdMRcUGEDQUPG4ube0v3JNTqMFOBKdSQ==}
+    dependencies:
+      '@zero-dependency/utils': 1.5.0
+    dev: false
+
   /@zero-dependency/dom@1.6.1:
     resolution: {integrity: sha512-BTW7rI2pa5EAfPDDHvaizCbtY1KNPo995kG9Z1dEVc7Ln7AewMz0D2AlT8iXRDULlrVVA6zcda5WI60t/ZSy6Q==}
     dependencies:
       csstype: 3.1.2
     dev: false
 
-  /@zero-dependency/storage@1.3.1:
-    resolution: {integrity: sha512-3EByO7eVWK7nkH5gQvBxCt7cXoYygqLfd6rgcAqnet58b95WM8+M0CXqP1B0q/x/cgJb/iy7c9naCFNGwBrFBg==}
-    dev: false
-
   /@zero-dependency/utils@1.0.0:
     resolution: {integrity: sha512-H5zwkhhqjGTSduBXq+lWKe5M70fJ6Xizml8LEd4Pmffdo5UBfNGsD2+WozbxoiqYwJ3j51Hpq8spsypKPZGcCA==}
+    dev: false
+
+  /@zero-dependency/utils@1.5.0:
+    resolution: {integrity: sha512-h6IlnOrpWCaZcvrFCj6Yhd+aiea+BhkBbwnlzPX8ptRTdnBo66ckboNYScgmq11JmkOVKwOqt0AQh2f086JBSA==}
     dev: false
 
   /ansi-styles@3.2.1:

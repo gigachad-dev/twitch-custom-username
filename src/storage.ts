@@ -1,29 +1,43 @@
-import { LocalStorage } from '@zero-dependency/storage'
+import { Cookie } from '@zero-dependency/cookie'
 
 export type User = [userId: string, customName: string]
 
-class Storage extends LocalStorage<User[]> {
-  private users: User[]
+class Storage extends Cookie<{ customNames: User[] }> {
+  private storageValue: User[]
 
   constructor() {
-    super('custom-usernames', [])
-    this.read()
-  }
+    super({
+      initialValue: {
+        customNames: []
+      },
+      attributes: {
+        domain: 'twitch.tv',
+        'max-age': 60 * 60 * 24 * 365
+      },
+      encode(value) {
+        return JSON.stringify(value)
+      },
+      decode(value) {
+        try {
+          return JSON.parse(value)
+        } catch {
+          return null
+        }
+      }
+    })
 
-  private read(): void {
-    this.users = this.value
+    this.storageValue = this.get('customNames')!
   }
 
   addCustomName(user: User): void {
-    this.write((values) => {
-      this.users = values.filter((value) => value[0] !== user[0])
-      this.users.push(user)
-      return this.users
-    })
+    const customNames = this.get('customNames')!
+    this.storageValue = customNames.filter((value) => value[0] !== user[0])
+    this.storageValue.push(user)
+    this.set('customNames', this.storageValue)
   }
 
   getCustomNameById(userId: string): string | null {
-    const user = this.users.find((user) => user[0] === userId)
+    const user = this.storageValue.find((user) => user[0] === userId)
     if (user) return user[1]
     return null
   }
