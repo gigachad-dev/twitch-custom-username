@@ -15,8 +15,10 @@ export function reactInstanceReader() {
   }
 
   return {
-    getUserId(element: Element): string {
+    getUserId(element: Element): string | null {
       const reactInstance = getReactInstance(element)
+      const reactKey = reactInstance.return.key
+      if (!reactKey) return null
       return reactInstance.return.key.split('-').at(0)
     }
   }
