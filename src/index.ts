@@ -36,7 +36,7 @@ document.addEventListener('contextmenu', (event) => {
   }
 })
 
-observeElement(document.body, (mutation, observer) => {
+observeElement(document.body, (mutation) => {
   observeChat(mutation)
 })
 
