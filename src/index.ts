@@ -9,6 +9,30 @@ import { storage } from './storage.js'
 
 const reactInstance = reactInstanceReader()
 
+document.addEventListener('keydown', (event) => {
+  // export Alt + Z
+  if (event.altKey && event.code === 'KeyZ') {
+    event.preventDefault()
+    navigator.clipboard
+      .writeText(JSON.stringify(storage.values))
+      .then(() => alert('Copied to clipboard!'))
+  }
+
+  // import Alt + X
+  if (event.altKey && event.code === 'KeyX') {
+    event.preventDefault()
+    const promptResult = prompt(
+      'Set a new storage value:',
+      JSON.stringify(storage.values)
+    )
+
+    if (promptResult) {
+      storage.write(promptResult)
+    }
+  }
+})
+
+// add custom name (in chat nickname) Ctrl + RBM
 document.addEventListener('contextmenu', (event) => {
   const el = event.target as HTMLElement
 

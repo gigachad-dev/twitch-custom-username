@@ -4,7 +4,7 @@ import { STORAGE_KEY } from './constants.js'
 export type User = [userId: string, customName: string]
 
 class Storage extends Cookie<{ customNames: User[] }> {
-  private storageValue: User[]
+  values: User[]
 
   constructor() {
     super({
@@ -27,18 +27,23 @@ class Storage extends Cookie<{ customNames: User[] }> {
       }
     })
 
-    this.storageValue = this.get(STORAGE_KEY)!
+    this.values = this.get(STORAGE_KEY)!
+  }
+
+  write(data: string) {
+    this.values = JSON.parse(data)
+    this.set(STORAGE_KEY, this.values)
   }
 
   addCustomName(user: User): void {
     const customNames = this.get(STORAGE_KEY)!
-    this.storageValue = customNames.filter((value) => value[0] !== user[0])
-    this.storageValue.push(user)
-    this.set(STORAGE_KEY, this.storageValue)
+    this.values = customNames.filter((value) => value[0] !== user[0])
+    this.values.push(user)
+    this.set(STORAGE_KEY, this.values)
   }
 
   getCustomNameById(userId: string): string | null {
-    const user = this.storageValue.find((user) => user[0] === userId)
+    const user = this.values.find((user) => user[0] === userId)
     if (user) return user[1]
     return null
   }
