@@ -1,7 +1,7 @@
 {
-  "name": "vite-userscript-template",
+  "name": "twitch-custom-username",
   "private": true,
-  "homepage": "https://crashmax-dev.github.io/vite-userscript-template/",
+  "homepage": "https://gigachad-dev.github.io/twitch-custom-username/",
   "version": "0.0.2",
   "type": "module",
   "author": "crashmax <userscript@crashmax.ru>",
