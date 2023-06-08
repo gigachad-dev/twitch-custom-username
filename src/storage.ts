@@ -36,9 +36,10 @@ class Storage extends Cookie<{ customNames: User[] }> {
   }
 
   addCustomName(user: User): void {
+    const [userId, customName] = user
     const customNames = this.get(STORAGE_KEY)!
-    this.values = customNames.filter((value) => value[0] !== user[0])
-    this.values.push(user)
+    this.values = customNames.filter((value) => value[0] !== userId)
+    if (customName) this.values.push(user)
     this.set(STORAGE_KEY, this.values)
   }
 

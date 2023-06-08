@@ -22,4 +22,3 @@ class ReactInstanceReader {
 }
 
 export const reactInstanceReader = new ReactInstanceReader()
-console.log(reactInstanceReader)
