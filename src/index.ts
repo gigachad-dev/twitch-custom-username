@@ -2,6 +2,7 @@ import { observeElement } from '@zero-dependency/dom'
 import {
   CHAT_DISPLAY_NAME,
   CHAT_LINE_MESSAGE,
+  CHAT_NOTICE_MESSAGE,
   DATA_USER_ID
 } from './constants.js'
 import { reactInstanceReader } from './react-instance-reader.js'
@@ -69,7 +70,10 @@ function observeChat(mutation: MutationRecord) {
     if (node.nodeName === '#text') continue
 
     const element = node as HTMLElement
-    if (!element.classList.contains(CHAT_LINE_MESSAGE)) continue
+    const isMessage =
+      element.classList.contains(CHAT_LINE_MESSAGE) ||
+      element.classList.contains(CHAT_NOTICE_MESSAGE)
+    if (!isMessage) continue
 
     const displayName = element.querySelector(`.${CHAT_DISPLAY_NAME}`)
     if (!displayName) continue
