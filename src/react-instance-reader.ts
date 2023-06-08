@@ -1,25 +1,25 @@
-export function reactInstanceReader() {
-  let reactInstanceKey: string
+class ReactInstanceReader {
+  private reactInstanceKey: string | null = null
 
-  function getReactInstance(element: any) {
-    if (!reactInstanceKey) {
+  private getReactInstance(element: any) {
+    if (!this.reactInstanceKey) {
       const elementKeys = Object.keys(element)
       if (!elementKeys.length) {
         throw new Error('ReactInstance is not defined')
       }
-
-      reactInstanceKey = elementKeys[0]!
+      this.reactInstanceKey = elementKeys[0]!
     }
 
-    return element[reactInstanceKey]
+    return element[this.reactInstanceKey]
   }
 
-  return {
-    getUserId(element: Element): string | null {
-      const reactInstance = getReactInstance(element)
-      const reactKey = reactInstance.return.key
-      if (!reactKey) return null
-      return reactInstance.return.key.split('-').at(0)
-    }
+  getUserId(element: Element): string | null {
+    const reactInstance = this.getReactInstance(element)
+    const reactKey = reactInstance.return.key
+    if (!reactKey) return null
+    return reactInstance.return.key.split('-').at(0)
   }
 }
+
+export const reactInstanceReader = new ReactInstanceReader()
+console.log(reactInstanceReader)
