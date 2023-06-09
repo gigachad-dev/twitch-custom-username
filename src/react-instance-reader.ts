@@ -1,16 +1,22 @@
-class ReactInstanceReader {
-  private reactInstanceKey: string | null = null
+import { REACT_INSTANCE_PREFIX } from './constants.js'
 
-  private getReactInstance(element: any) {
-    if (!this.reactInstanceKey) {
-      const elementKeys = Object.keys(element)
-      if (!elementKeys.length) {
-        throw new Error('ReactInstance is not defined')
+class ReactInstanceReader {
+  private reactInternalInstanceKey: string | null = null
+
+  private getReactInstance(element: any): any {
+    if (!this.reactInternalInstanceKey) {
+      const reactInternalInstanceKey = Object.keys(element).find((key) =>
+        key.startsWith(REACT_INSTANCE_PREFIX)
+      )
+
+      if (!reactInternalInstanceKey) {
+        throw new Error(`${REACT_INSTANCE_PREFIX} is not defined`)
       }
-      this.reactInstanceKey = elementKeys[0]!
+
+      this.reactInternalInstanceKey = reactInternalInstanceKey
     }
 
-    return element[this.reactInstanceKey]
+    return element[this.reactInternalInstanceKey]
   }
 
   getUserId(element: Element): string | null {
