@@ -1,10 +1,19 @@
 # twitch-custom-username
 
-> This template is based on [Vite](https://vitejs.dev) and [vite-userscript-plugin](https://github.com/crashmax-dev/vite-userscript-plugin)
+## Install
 
-### Install Userscript
+- Install [Tampermonkey](https://www.tampermonkey.net/) for your browser.
+- Install Userscript [twitch-custom-username.user.js](https://gigachad-dev.github.io/twitch-custom-username/twitch-custom-username.user.js)
 
-> [twitch-custom-username.user.js](https://gigachad-dev.github.io/twitch-custom-username/twitch-custom-username.user.js)
+## Usage
+
+![image](https://github.com/gigachad-dev/twitch-custom-username/assets/15673111/64a959aa-0f61-491f-bc74-2066e3e2ccf4)
+
+### Shortcuts
+
+- <kbd>Alt</kbd> + <kbd>Right-Click</kbd> — Add/Edit/Remove custom username (you have to click on the nickname in the chat).
+- <kbd>Alt</kbd> + <kbd>Q</kbd> — Export config.
+- <kbd>Alt</kbd> + <kbd>W</kbd> — Import config.
 
 ## Development
 
