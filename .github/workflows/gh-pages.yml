@@ -25,9 +25,9 @@ jobs:
           node-version: 16
 
       - name: Installing packages
-        uses: pnpm/action-setup@v2.2.2
+        uses: pnpm/action-setup@v2.2.4
         with:
-          version: 7.x.x
+          version: 7
           run_install: |
             - args: [--frozen-lockfile]
       - name: Build
