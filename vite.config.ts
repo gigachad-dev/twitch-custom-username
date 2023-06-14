@@ -13,7 +13,6 @@ export default defineConfig((config) => {
           author,
           license,
           homepage,
-          resource: [['iframe-storage-url', homepage + 'index.html']],
           match: 'https://*.twitch.tv/*'
         },
         server: {
