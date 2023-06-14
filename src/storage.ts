@@ -1,6 +1,24 @@
+import { Cookie } from '@zero-dependency/cookie'
 import { STORAGE_KEY } from './constants.js'
 
 export type User = [userId: string, customName: string]
+
+const cookie = new Cookie<{ customNames: User[] }>({
+  attributes: {
+    domain: 'twitch.tv',
+    'max-age': 60 * 60 * 24 * 365
+  },
+  encode(value) {
+    return JSON.stringify(value)
+  },
+  decode(value) {
+    try {
+      return JSON.parse(value)
+    } catch {
+      return null
+    }
+  }
+})
 
 class Storage {
   private STORAGE_VALUES: User[]
@@ -23,6 +41,14 @@ class Storage {
         this.STORAGE_VALUES = newValue
       }
     )
+
+    // migrate cookie storage to tampermonkey storage
+    if (!this.STORAGE_VALUES.length) {
+      const values = cookie.get(STORAGE_KEY)
+      if (!values) return
+      this.write(values)
+      cookie.remove(STORAGE_KEY)
+    }
   }
 
   private read(): User[] {

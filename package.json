@@ -20,6 +20,7 @@
     "vite-userscript-plugin": "1.8.1"
   },
   "dependencies": {
+    "@zero-dependency/cookie": "^1.11.3",
     "@zero-dependency/dom": "1.6.1",
     "@zero-dependency/utils": "1.5.0"
   }
