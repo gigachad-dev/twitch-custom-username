@@ -1,6 +1,6 @@
 import { defineConfig } from 'vite'
 import Userscript from 'vite-userscript-plugin'
-import { name, version, homepage, license, author } from './package.json'
+import { author, homepage, license, name, version } from './package.json'
 
 export default defineConfig((config) => {
   return {
@@ -13,6 +13,7 @@ export default defineConfig((config) => {
           author,
           license,
           homepage,
+          resource: [['iframe-storage-url', homepage + 'index.html']],
           match: 'https://*.twitch.tv/*'
         },
         server: {

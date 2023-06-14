@@ -14,13 +14,17 @@ function exportConfig(event: KeyboardEvent) {
 function importConfig(event: KeyboardEvent) {
   if (event.altKey && event.code === 'KeyW') {
     event.preventDefault()
+
     const promptResult = prompt(
       'Set a new storage value:',
       JSON.stringify(storage.values)
     )
+    if (!promptResult) return
 
-    if (promptResult) {
-      storage.write(promptResult)
+    try {
+      storage.write(JSON.parse(promptResult))
+    } catch (err) {
+      alert(`Failed to parse JSON: ${(err as Error).message}`)
     }
   }
 }

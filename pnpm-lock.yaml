@@ -5,9 +5,6 @@ settings:
   excludeLinksFromLockfile: false
 
 dependencies:
-  '@zero-dependency/cookie':
-    specifier: 1.11.3
-    version: 1.11.3
   '@zero-dependency/dom':
     specifier: 1.6.1
     version: 1.6.1
@@ -516,12 +513,6 @@ packages:
       '@jridgewell/resolve-uri': 3.1.0
       '@jridgewell/sourcemap-codec': 1.4.14
     dev: true
-
-  /@zero-dependency/cookie@1.11.3:
-    resolution: {integrity: sha512-oYJf5kU/xlVkW6zfWwRuLA93rsPDVjNACPJ8+Cg5YncLCrm2wEF/2IsdMRcUGEDQUPG4ube0v3JNTqMFOBKdSQ==}
-    dependencies:
-      '@zero-dependency/utils': 1.5.0
-    dev: false
 
   /@zero-dependency/dom@1.6.1:
     resolution: {integrity: sha512-BTW7rI2pa5EAfPDDHvaizCbtY1KNPo995kG9Z1dEVc7Ln7AewMz0D2AlT8iXRDULlrVVA6zcda5WI60t/ZSy6Q==}
