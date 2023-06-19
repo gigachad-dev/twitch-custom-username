@@ -1,9 +1,10 @@
 import { CHAT_DISPLAY_NAME, DATA_USER_ID } from './constants.js'
+import { getUserInfo } from './get-user-info.js'
 import { reactInstanceReader } from './react-instance-reader.js'
 import { storage } from './storage.js'
 
-function exportConfig(event: KeyboardEvent) {
-  if (event.altKey && event.code === 'KeyQ') {
+function exportConfig(event: KeyboardEvent): void {
+  if (event.altKey && event.key === '1') {
     event.preventDefault()
     navigator.clipboard
       .writeText(JSON.stringify(storage.values))
@@ -11,8 +12,8 @@ function exportConfig(event: KeyboardEvent) {
   }
 }
 
-function importConfig(event: KeyboardEvent) {
-  if (event.altKey && event.code === 'KeyW') {
+function importConfig(event: KeyboardEvent): void {
+  if (event.altKey && event.key === '2') {
     event.preventDefault()
 
     const promptResult = prompt(
@@ -29,10 +30,9 @@ function importConfig(event: KeyboardEvent) {
   }
 }
 
-function addCustomUsername(event: MouseEvent) {
+function addCustomUsernameFromChat(event: MouseEvent): void {
   const el = event.target as HTMLElement
 
-  // Alt + RBM
   if (event.altKey && el.classList.contains(CHAT_DISPLAY_NAME)) {
     event.preventDefault()
 
@@ -57,8 +57,42 @@ function addCustomUsername(event: MouseEvent) {
   }
 }
 
+async function addCustomUsername(event: KeyboardEvent): Promise<void> {
+  if (event.altKey && event.key === '3') {
+    event.preventDefault()
+
+    const usernamePrompt = prompt('Search user by name:')
+    if (!usernamePrompt) {
+      return addCustomUsername(event)
+    }
+
+    searchUser(event, usernamePrompt)
+  }
+}
+
+async function searchUser(
+  event: KeyboardEvent,
+  usernamePrompt: string
+): Promise<void> {
+  const userInfo = await getUserInfo(usernamePrompt)
+  if (userInfo.error) {
+    alert(userInfo.error)
+    return addCustomUsername(event)
+  }
+
+  const currentCustomName = storage.getCustomNameById(userInfo.id)
+  const customUsernamePrompt = prompt(
+    `Set a custom name for ${userInfo.displayName}:`,
+    currentCustomName ?? ''
+  )
+
+  if (customUsernamePrompt === null) return
+  storage.addCustomName([userInfo.id, customUsernamePrompt])
+}
+
 export const shortcuts = {
   exportConfig,
   importConfig,
+  addCustomUsernameFromChat,
   addCustomUsername
 }

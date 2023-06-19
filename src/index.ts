@@ -3,16 +3,19 @@ import { observeChat } from './observe-chat.js'
 import { shortcuts } from './shortcuts.js'
 
 document.addEventListener('keydown', (event) => {
-  // export Alt + Q
+  // export Alt + 1
+  shortcuts.exportConfig(event)
+
+  // import Alt + 2
   shortcuts.importConfig(event)
 
-  // import Alt + W
-  shortcuts.exportConfig(event)
+  // add custom username Alt + 3
+  shortcuts.addCustomUsername(event)
 })
 
 document.addEventListener('contextmenu', (event) => {
   // add custom username Alt + RMB
-  shortcuts.addCustomUsername(event)
+  shortcuts.addCustomUsernameFromChat(event)
 })
 
 observeElement(document.body, (mutation) => observeChat(mutation))
