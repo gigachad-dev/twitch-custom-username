@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name        twitch-custom-username
-// @version     1.2.0
+// @version     1.2.1
 // @author      crashmax <userscript@crashmax.ru>
 // @license     MIT
 // @homepage    https://gigachad-dev.github.io/twitch-custom-username/
