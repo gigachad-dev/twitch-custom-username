@@ -62,9 +62,7 @@ async function addCustomUsername(event: KeyboardEvent): Promise<void> {
     event.preventDefault()
 
     const usernamePrompt = prompt('Search user by name:')
-    if (!usernamePrompt) {
-      return addCustomUsername(event)
-    }
+    if (!usernamePrompt) return
 
     searchUser(event, usernamePrompt)
   }
