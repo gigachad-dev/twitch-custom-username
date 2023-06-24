@@ -1,77 +1,44 @@
-import { Cookie } from '@zero-dependency/cookie'
-import { STORAGE_KEY } from './constants.js'
+import { getUsers, writeUserCustomName } from './api.js'
+import { passwordManager } from './password-manager.js'
 
-export type User = [userId: string, customName: string]
-
-const cookie = new Cookie<{ customNames: User[] }>({
-  attributes: {
-    domain: 'twitch.tv',
-    'max-age': 60 * 60 * 24 * 365
-  },
-  encode(value) {
-    return JSON.stringify(value)
-  },
-  decode(value) {
-    try {
-      return JSON.parse(value)
-    } catch {
-      return null
-    }
-  }
-})
+export type User = { id: string; name: string }
 
 class Storage {
-  private STORAGE_VALUES: User[]
-
-  constructor() {
-    this.init()
-  }
+  private STORAGE_VALUES: User[] = []
 
   get values(): User[] {
     return this.STORAGE_VALUES
   }
 
-  private init(): void {
-    this.read()
-
-    GM_addValueChangeListener(
-      STORAGE_KEY,
-      (key, oldValue, newValue, remote) => {
-        if (!remote) return
-        this.STORAGE_VALUES = newValue
-      }
-    )
-
-    // migrate cookie storage to tampermonkey storage
-    if (!this.STORAGE_VALUES.length) {
-      const values = cookie.get(STORAGE_KEY)
-      if (!values) return
-      this.write(values)
-      cookie.remove(STORAGE_KEY)
-    }
+  constructor() {
+    this.init()
   }
 
-  private read(): User[] {
-    this.STORAGE_VALUES = GM_getValue<User[]>(STORAGE_KEY, [])
+  private async init(): Promise<void> {
+    setInterval(() => this.read(), 60 * 1000)
+    this.read()
+  }
+
+  private async read(): Promise<User[]> {
+    this.STORAGE_VALUES = await getUsers()
     return this.STORAGE_VALUES
   }
 
-  write(values?: User[]): void {
-    if (values) this.STORAGE_VALUES = values
-    GM_setValue(STORAGE_KEY, this.STORAGE_VALUES)
+  async setCustomName(user: User): Promise<void> {
+    try {
+      const password = passwordManager.get()
+      const users = await this.read()
+      this.STORAGE_VALUES = users.filter((value) => value.id !== user.id)
+      if (user.name) this.STORAGE_VALUES.push(user)
+      await writeUserCustomName({ ...user, password })
+    } catch (err) {
+      alert((err as Error).message)
+    }
   }
 
-  addCustomName(user: User): void {
-    const [userId, customName] = user
-    const users = this.read()
-    this.STORAGE_VALUES = users.filter((value) => value[0] !== userId)
-    if (customName) this.STORAGE_VALUES.push(user)
-    this.write()
-  }
-
-  getCustomNameById(userId: string): string | null {
-    const user = this.STORAGE_VALUES.find((user) => user[0] === userId)
-    if (user) return user[1]
+  getCustomName(userId: string): string | null {
+    const user = this.STORAGE_VALUES.find((user) => user.id === userId)
+    if (user) return user.name
     return null
   }
 }

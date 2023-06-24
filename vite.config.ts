@@ -13,7 +13,8 @@ export default defineConfig((config) => {
           author,
           license,
           homepage,
-          match: 'https://*.twitch.tv/*'
+          noframes: true,
+          match: 'https://*.twitch.tv/*',
         },
         server: {
           port: 3000
