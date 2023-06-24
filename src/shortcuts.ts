@@ -26,19 +26,18 @@ function addCustomUsernameFromChat(event: MouseEvent): void {
       user ?? ''
     )
     if (promptResult === null) return
-
     storage.addCustomName({ id: userId, name: promptResult })
   }
 }
 
 async function addCustomUsername(event: KeyboardEvent): Promise<void> {
-  if (event.altKey && event.key === '3') {
+  if (event.altKey && event.key === '1') {
     event.preventDefault()
 
     const usernamePrompt = prompt('Поиск пользователя по никнейму:')
     if (!usernamePrompt) return
 
-    await searchUser(event, usernamePrompt)
+    searchUser(event, usernamePrompt)
   }
 }
 
@@ -60,11 +59,7 @@ async function searchUser(
 
   if (customUsernamePrompt === null) return
 
-  try {
-    await storage.addCustomName({ id: userInfo.id, name: customUsernamePrompt })
-  } catch (err) {
-    alert((err as Error).message)
-  }
+  storage.addCustomName({ id: userInfo.id, name: customUsernamePrompt })
 }
 
 export function editPassword(event: KeyboardEvent) {

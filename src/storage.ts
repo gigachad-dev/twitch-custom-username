@@ -20,15 +20,15 @@ class Storage {
   }
 
   async addCustomName(user: User): Promise<void> {
-    const password = passwordManager.get()
-    if (!password) {
-      throw new Error('Дальше вы не пройдете пока не получите бумаги')
+    try {
+      const password = passwordManager.get()
+      const users = await this.read()
+      this.STORAGE_VALUES = users.filter((value) => value.id !== user.id)
+      if (user.name) this.STORAGE_VALUES.push(user)
+      await writeUserCustomName({ ...user, password })
+    } catch (err) {
+      alert((err as Error).message)
     }
-
-    const users = await this.read()
-    this.STORAGE_VALUES = users.filter((value) => value.id !== user.id)
-    if (user.name) this.STORAGE_VALUES.push(user)
-    await writeUserCustomName({ ...user, password })
   }
 
   getCustomNameById(userId: string): string | null {

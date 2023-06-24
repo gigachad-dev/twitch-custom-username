@@ -8,10 +8,10 @@ interface UserInfo {
 }
 
 export async function getUserInfo(username: string): Promise<UserInfo> {
-  const url = new URL('/check-user', USERSCRIPT_API)
-  url.searchParams.set('username', username)
+  const params = new URLSearchParams()
+  params.set('username', username)
 
-  const response = await fetch(url)
+  const response = await fetch(USERSCRIPT_API + '/check-user?' + params)
   const userInfo = await response.json()
   return userInfo
 }
@@ -23,7 +23,7 @@ export async function getUsers(): Promise<User[]> {
 }
 
 export async function writeUserCustomName(
-  user: User & { password: string }
+  user: User & { password: string | null }
 ): Promise<void> {
   const response = await fetch(USERSCRIPT_API + '/users', {
     method: 'POST',
@@ -33,5 +33,8 @@ export async function writeUserCustomName(
     body: JSON.stringify(user)
   })
 
-  await response.json()
+  const data = await response.json()
+  if (data.error) {
+    throw new Error(data.error)
+  }
 }
