@@ -2,7 +2,7 @@
   "name": "twitch-custom-username",
   "private": true,
   "homepage": "https://gigachad-dev.github.io/twitch-custom-username/",
-  "version": "1.2.1",
+  "version": "1.3.0",
   "type": "module",
   "author": "crashmax <userscript@crashmax.ru>",
   "license": "MIT",
