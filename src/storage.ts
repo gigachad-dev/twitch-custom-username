@@ -11,6 +11,11 @@ class Storage {
   }
 
   constructor() {
+    this.init()
+  }
+
+  private async init(): Promise<void> {
+    setInterval(() => this.read(), 60 * 1000)
     this.read()
   }
 
@@ -19,7 +24,7 @@ class Storage {
     return this.STORAGE_VALUES
   }
 
-  async addCustomName(user: User): Promise<void> {
+  async setCustomName(user: User): Promise<void> {
     try {
       const password = passwordManager.get()
       const users = await this.read()
@@ -31,7 +36,7 @@ class Storage {
     }
   }
 
-  getCustomNameById(userId: string): string | null {
+  getCustomName(userId: string): string | null {
     const user = this.STORAGE_VALUES.find((user) => user.id === userId)
     if (user) return user.name
     return null

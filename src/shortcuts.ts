@@ -20,13 +20,13 @@ function addCustomUsernameFromChat(event: MouseEvent): void {
       return
     }
 
-    const user = storage.getCustomNameById(userId)
+    const user = storage.getCustomName(userId)
     const promptResult = prompt(
       `Укажите имя для пользователя ${el.textContent}:`,
       user ?? ''
     )
     if (promptResult === null) return
-    storage.addCustomName({ id: userId, name: promptResult })
+    storage.setCustomName({ id: userId, name: promptResult })
   }
 }
 
@@ -51,7 +51,7 @@ async function searchUser(
     return addCustomUsername(event)
   }
 
-  const currentCustomName = storage.getCustomNameById(userInfo.id)
+  const currentCustomName = storage.getCustomName(userInfo.id)
   const customUsernamePrompt = prompt(
     `Укажите имя для пользователя ${userInfo.displayName}:`,
     currentCustomName ?? ''
@@ -59,7 +59,7 @@ async function searchUser(
 
   if (customUsernamePrompt === null) return
 
-  storage.addCustomName({ id: userInfo.id, name: customUsernamePrompt })
+  storage.setCustomName({ id: userInfo.id, name: customUsernamePrompt })
 }
 
 export function editPassword(event: KeyboardEvent) {

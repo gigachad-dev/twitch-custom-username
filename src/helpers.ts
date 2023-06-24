@@ -8,11 +8,11 @@ export function getUserFromChat(
 ): string | null {
   const userIdFromFFZAttribute = chatElement.getAttribute(DATA_USER_ID)
   if (userIdFromFFZAttribute) {
-    return storage.getCustomNameById(userIdFromFFZAttribute)
+    return storage.getCustomName(userIdFromFFZAttribute)
   } else {
     const userIdFromReactInstance =
       reactInstanceReader.getUserId(displayNameElement)
     if (!userIdFromReactInstance) return null
-    return storage.getCustomNameById(userIdFromReactInstance)
+    return storage.getCustomName(userIdFromReactInstance)
   }
 }
