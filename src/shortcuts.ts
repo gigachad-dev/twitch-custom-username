@@ -1,34 +1,8 @@
+import { getUserInfo } from './api.js'
 import { CHAT_DISPLAY_NAME, DATA_USER_ID } from './constants.js'
-import { getUserInfo } from './get-user-info.js'
+import { passwordManager } from './password-manager.js'
 import { reactInstanceReader } from './react-instance-reader.js'
 import { storage } from './storage.js'
-
-function exportConfig(event: KeyboardEvent): void {
-  if (event.altKey && event.key === '1') {
-    event.preventDefault()
-    navigator.clipboard
-      .writeText(JSON.stringify(storage.values))
-      .then(() => alert('Copied to clipboard!'))
-  }
-}
-
-function importConfig(event: KeyboardEvent): void {
-  if (event.altKey && event.key === '2') {
-    event.preventDefault()
-
-    const promptResult = prompt(
-      'Set a new storage value:',
-      JSON.stringify(storage.values)
-    )
-    if (!promptResult) return
-
-    try {
-      storage.write(JSON.parse(promptResult))
-    } catch (err) {
-      alert(`Failed to parse JSON: ${(err as Error).message}`)
-    }
-  }
-}
 
 function addCustomUsernameFromChat(event: MouseEvent): void {
   const el = event.target as HTMLElement
@@ -42,18 +16,18 @@ function addCustomUsernameFromChat(event: MouseEvent): void {
       el.parentElement!.parentElement!.parentElement!.getAttribute(DATA_USER_ID)
 
     if (!userId) {
-      alert('User id is not defined')
+      alert('Не найден userId.')
       return
     }
 
     const user = storage.getCustomNameById(userId)
     const promptResult = prompt(
-      `Set a custom name for ${el.textContent}:`,
+      `Укажите имя для пользователя ${el.textContent}:`,
       user ?? ''
     )
     if (promptResult === null) return
 
-    storage.addCustomName([userId, promptResult])
+    storage.addCustomName({ id: userId, name: promptResult })
   }
 }
 
@@ -61,10 +35,10 @@ async function addCustomUsername(event: KeyboardEvent): Promise<void> {
   if (event.altKey && event.key === '3') {
     event.preventDefault()
 
-    const usernamePrompt = prompt('Search user by name:')
+    const usernamePrompt = prompt('Поиск пользователя по никнейму:')
     if (!usernamePrompt) return
 
-    searchUser(event, usernamePrompt)
+    await searchUser(event, usernamePrompt)
   }
 }
 
@@ -80,17 +54,32 @@ async function searchUser(
 
   const currentCustomName = storage.getCustomNameById(userInfo.id)
   const customUsernamePrompt = prompt(
-    `Set a custom name for ${userInfo.displayName}:`,
+    `Укажите имя для пользователя ${userInfo.displayName}:`,
     currentCustomName ?? ''
   )
 
   if (customUsernamePrompt === null) return
-  storage.addCustomName([userInfo.id, customUsernamePrompt])
+
+  try {
+    await storage.addCustomName({ id: userInfo.id, name: customUsernamePrompt })
+  } catch (err) {
+    alert((err as Error).message)
+  }
+}
+
+export function editPassword(event: KeyboardEvent) {
+  if (event.altKey && event.key === '2') {
+    event.preventDefault()
+
+    const password = prompt('Укажите пароль для доступа к API:')
+    if (!password) return
+
+    passwordManager.write(password)
+  }
 }
 
 export const shortcuts = {
-  exportConfig,
-  importConfig,
   addCustomUsernameFromChat,
-  addCustomUsername
+  addCustomUsername,
+  editPassword
 }
