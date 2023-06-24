@@ -12,9 +12,8 @@
 ### Shortcuts
 
 - <kbd>Alt</kbd> + <kbd>Right-Click</kbd> — Add/Edit/Remove custom username (you have to click on the nickname in the chat).
-- <kbd>Alt</kbd> + <kbd>1</kbd> — Export config.
-- <kbd>Alt</kbd> + <kbd>2</kbd> — Import config.
-- <kbd>Alt</kbd> + <kbd>3</kbd> — Add custom username from prompt.
+- <kbd>Alt</kbd> + <kbd>1</kbd> — Add/Edit/Remove custom username.
+- <kbd>Alt</kbd> + <kbd>2</kbd> — Set API key.
 
 ## Development
 
