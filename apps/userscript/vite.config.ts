@@ -1,6 +1,6 @@
 import { defineConfig } from 'vite'
 import Userscript from 'vite-userscript-plugin'
-import { author, homepage, license, name, version } from './package.json'
+import { author, homepage, license, version } from './package.json'
 
 export default defineConfig((config) => {
   return {
@@ -8,13 +8,13 @@ export default defineConfig((config) => {
       Userscript({
         entry: 'src/index.ts',
         header: {
-          name,
+          name: 'twitch-extended-chat',
           version,
           author,
           license,
           homepage,
           noframes: true,
-          match: 'https://*.twitch.tv/*',
+          match: 'https://*.twitch.tv/*'
         },
         server: {
           port: 3000
