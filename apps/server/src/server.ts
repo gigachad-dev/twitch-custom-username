@@ -20,10 +20,13 @@ export function createServer(opts: ServerOptions) {
   void server.register(fastifyTRPCPlugin, {
     prefix,
     useWSS: true,
-    trpcOptions: { router: appRouter, createContext }
+    trpcOptions: {
+      router: appRouter,
+      createContext
+    }
   })
 
-  server.get('/', async () => {
+  server.get('/', () => {
     return { hello: 'wait-on 💨' }
   })
 
@@ -34,7 +37,7 @@ export function createServer(opts: ServerOptions) {
   const start = async () => {
     try {
       const serverAddress = await server.listen({ host: '127.0.0.1', port })
-      console.log(serverAddress)
+      console.log('Server listening on:', serverAddress)
     } catch (err) {
       server.log.error(err)
       process.exit(1)
