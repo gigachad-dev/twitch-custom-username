@@ -17,12 +17,6 @@ export function App() {
               username: 'nyan',
               'content-type': 'application/json'
             }
-          },
-          fetch(url, options) {
-            return fetch(url, {
-              ...options,
-              mode: 'no-cors'
-            })
           }
         })
       ]
@@ -45,14 +39,8 @@ function Posts() {
   const inputRef = useRef<HTMLInputElement>(null)
 
   const postsQuery = trpc.posts.list.useQuery()
-  const createPostMutation = trpc.posts.create.useMutation({
-    onMutate: (data) => {
-      if (!data.title) return
-    },
-    onSuccess: () => {
-      inputRef.current!.value = ''
-    }
-  })
+  const createPostMutation = trpc.posts.create.useMutation()
+  const resetPostsMutation = trpc.posts.reset.useMutation()
 
   return (
     <div>
@@ -60,13 +48,26 @@ function Posts() {
         ref={inputRef}
         type="text"
         placeholder="Add a post"
-        onKeyDown={(event) => {
+        onKeyDown={async (event) => {
           if (event.key === 'Enter') {
+            if (!inputRef.current?.value) return
             event.preventDefault()
-            createPostMutation.mutate({ title: inputRef.current!.value })
+            await createPostMutation.mutateAsync({
+              title: inputRef.current.value
+            })
+            inputRef.current!.value = ''
+            await postsQuery.refetch()
           }
         }}
       />
+      <button
+        onClick={async () => {
+          await resetPostsMutation.mutateAsync()
+          await postsQuery.refetch()
+        }}
+      >
+        Reset
+      </button>
       <h1>Posts</h1>
       <ul>
         {postsQuery.data?.map((post) => (

@@ -1,3 +1,4 @@
+import cors from '@fastify/cors'
 import ws from '@fastify/websocket'
 import { fastifyTRPCPlugin } from '@trpc/server/adapters/fastify'
 import fastify from 'fastify'
@@ -16,6 +17,7 @@ export function createServer(opts: ServerOptions) {
   const prefix = opts.prefix ?? '/trpc'
   const server = fastify({ logger: dev })
 
+  void server.register(cors)
   void server.register(ws)
   void server.register(fastifyTRPCPlugin, {
     prefix,

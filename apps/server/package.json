@@ -9,6 +9,7 @@
   },
   "dependencies": {
     "@databases/sqlite": "^4.0.2",
+    "@fastify/cors": "^8.3.0",
     "@fastify/websocket": "^8.1.0",
     "@trpc/server": "^10.33.0",
     "fastify": "^4.19.1",
