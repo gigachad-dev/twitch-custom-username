@@ -1,27 +1,20 @@
 {
-  "name": "twitch-custom-username",
+  "name": "@workspace/root",
   "private": true,
-  "homepage": "https://gigachad-dev.github.io/twitch-custom-username/",
-  "version": "1.3.0",
-  "type": "module",
-  "author": "crashmax <userscript@crashmax.ru>",
-  "license": "MIT",
+  "workspaces": [
+    "apps/*"
+  ],
   "scripts": {
-    "dev": "vite build --watch --mode development",
-    "build": "vite build",
-    "format": "prettier --write --ignore-unknown src"
+    "dev": "turbo run dev --filter=./apps/*",
+    "build": "turbo run build --filter=./apps/*",
+    "format": "prettier --write '**/*.{js,ts,tsx,json}'"
   },
   "devDependencies": {
     "@crashmax/prettier-config": "3.2.1",
     "@crashmax/tsconfig": "2.0.1",
     "sass": "1.63.6",
+    "turbo": "^1.10.6",
     "typescript": "5.1.3",
-    "vite": "4.3.9",
-    "vite-userscript-plugin": "1.9.0"
-  },
-  "dependencies": {
-    "@zero-dependency/cookie": "1.12.0",
-    "@zero-dependency/dom": "1.7.1",
-    "@zero-dependency/utils": "1.6.0"
+    "vite": "4.3.9"
   }
 }
