@@ -1,12 +1,8 @@
-import { apiRouter } from './api/api.js'
-import { postsRouter } from './api/posts.js'
-import { subRouter } from './api/sub.js'
+import { postsRouter } from './api/users.js'
 import { router } from './trpc'
 
 export const appRouter = router({
-  posts: postsRouter,
-  sub: subRouter,
-  api: apiRouter
+  users: postsRouter
 })
 
 export type AppRouter = typeof appRouter

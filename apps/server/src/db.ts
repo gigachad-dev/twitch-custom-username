@@ -6,10 +6,6 @@ export const db = connect('db.sqlite', {
 
 await db.query(sql`CREATE TABLE IF NOT EXISTS ${sql.ident('users')} (
   id INTEGER PRIMARY KEY,
-  name TEXT
-)`)
-
-await db.query(sql`CREATE TABLE IF NOT EXISTS ${sql.ident('posts')} (
-  id INTEGER PRIMARY KEY,
-  title TEXT
+  userId text,
+  name text
 )`)

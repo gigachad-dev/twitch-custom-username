@@ -2,7 +2,6 @@ import cors from '@fastify/cors'
 import ws from '@fastify/websocket'
 import { fastifyTRPCPlugin } from '@trpc/server/adapters/fastify'
 import fastify from 'fastify'
-import { createContext } from './context'
 import { appRouter } from './router'
 
 export interface ServerOptions {
@@ -23,8 +22,7 @@ export function createServer(opts: ServerOptions) {
     prefix,
     useWSS: true,
     trpcOptions: {
-      router: appRouter,
-      createContext
+      router: appRouter
     }
   })
 
@@ -38,8 +36,7 @@ export function createServer(opts: ServerOptions) {
 
   const start = async () => {
     try {
-      const serverAddress = await server.listen({ host: '127.0.0.1', port })
-      console.log('Server listening on:', serverAddress)
+      await server.listen({ host: 'localhost', port })
     } catch (err) {
       server.log.error(err)
       process.exit(1)

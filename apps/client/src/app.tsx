@@ -38,40 +38,54 @@ export function App() {
 function Posts() {
   const inputRef = useRef<HTMLInputElement>(null)
 
-  const postsQuery = trpc.posts.list.useQuery()
-  const createPostMutation = trpc.posts.create.useMutation()
-  const resetPostsMutation = trpc.posts.reset.useMutation()
+  const usersQuery = trpc.users.list.useQuery()
+  const createUserMutation = trpc.users.create.useMutation()
+  const resetUsersMutation = trpc.users.reset.useMutation()
+
+  const handleCreateUser = async () => {
+    if (!inputRef.current?.value) return
+    await createUserMutation.mutateAsync({
+      userId: '1',
+      name: inputRef.current.value
+    })
+    await usersQuery.refetch()
+    inputRef.current!.value = ''
+  }
 
   return (
     <div>
-      <input
-        ref={inputRef}
-        type="text"
-        placeholder="Add a post"
-        onKeyDown={async (event) => {
-          if (event.key === 'Enter') {
-            if (!inputRef.current?.value) return
+      <form>
+        <label>
+          Name:
+          <input
+            ref={inputRef}
+            type="text"
+            placeholder="Add user"
+          />
+        </label>
+        <button
+          type="submit"
+          onClick={(event) => {
             event.preventDefault()
-            await createPostMutation.mutateAsync({
-              title: inputRef.current.value
-            })
-            inputRef.current!.value = ''
-            await postsQuery.refetch()
-          }
-        }}
-      />
-      <button
-        onClick={async () => {
-          await resetPostsMutation.mutateAsync()
-          await postsQuery.refetch()
-        }}
-      >
-        Reset
-      </button>
-      <h1>Posts</h1>
+            handleCreateUser()
+          }}
+        >
+          Add
+        </button>
+        <button
+          onClick={async (event) => {
+            event.preventDefault()
+            await resetUsersMutation.mutateAsync()
+            await usersQuery.refetch()
+          }}
+        >
+          Reset
+        </button>
+      </form>
+      <h1>Users</h1>
       <ul>
-        {postsQuery.data?.map((post) => (
-          <li key={post.id}>{post.title}</li>
+        {usersQuery.data?.map((post) => (
+          <li key={post.id}>{post.name}</li>
         ))}
       </ul>
     </div>
